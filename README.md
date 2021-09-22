@@ -10,6 +10,8 @@
  
  [![urna](https://user-images.githubusercontent.com/80923539/134291468-f129094a-f6a6-4b5a-abca-632a9cc3903f.jpg)](https://nanepifanio.github.io/Projeto-Urna/)
 
+No smartphone, usar o mesmo na horizontal para melhorar a visibilidade da urna.
+
 Os números dos candidatos fictícios são:
 
 VEREADORES: (38111 e 77222)/ PREFEITOS: (99 e 84)
