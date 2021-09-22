@@ -101,7 +101,7 @@ window.addEventListener("click", () => {
   qs("input").focus();
 });
 
-qs("input").addEventListener("keyup", (event) => {
+window3.addEventListener("keyup", (event) => {
   const digitado = event.key;
   const etapa = etapas[etapaAtual];
   if (
