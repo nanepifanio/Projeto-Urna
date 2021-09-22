@@ -1,45 +1,38 @@
 const qs = (elemento) => document.querySelector(elemento);
 const qsa = (elemento) => document.querySelectorAll(elemento);
 
-// Variáveis de mudança
-let seuVotoPara = qs(".d-1-1");
-let cargo = qs(".d-1-2 span");
-let numeros = qs(".d-1-3");
-let infosCandidato = qs(".d-1-4");
-let nomeCandidato = qs(".d-1-4-name");
-let partido = qs(".d-1-4-partido");
-let infoVice = qs(".d-1-4-vice");
-let nomeVice = qs(".d-1-4-vice--name");
-let imagens = qs(".d-1-right");
-let imagemCandidato = qs(".d-1-image img");
-let cargoCandidato = qs(".d-1-image span");
-let imgSmall = qs(".small");
-let imagemVice = qs(".small img");
-let cargoVice = qs(".small span");
-let legenda = qs(".d-2");
+const seuVotoPara = qs(".d-1-1");
+const cargo = qs(".d-1-2 span");
+const numeros = qs(".d-1-3");
+const infosCandidato = qs(".d-1-4");
+const nomeCandidato = qs(".d-1-4-name");
+const partido = qs(".d-1-4-partido");
+const infoVice = qs(".d-1-4-vice");
+const nomeVice = qs(".d-1-4-vice--name");
+const imagens = qs(".d-1-right");
+const imagemCandidato = qs(".d-1-image img");
+const cargoCandidato = qs(".d-1-image span");
+const imgSmall = qs(".small");
+const imagemVice = qs(".small img");
+const cargoVice = qs(".small span");
+const legenda = qs(".d-2");
 
-// Variável de controle de etapa
 let etapaAtual = 0;
 let numero = "";
 let votoBranco = false;
-let votos = [];
+const votos = [];
 
-// Função que faz as configurações para quando uma etapa começa
 function comecarEtapa() {
-  // Armazena o objeto atual referente a etapa
-  let etapa = etapas[etapaAtual];
+  const etapa = etapas[etapaAtual];
 
-  // Reseta a variável número
   numero = "";
 
   numeros.innerHTML = "";
 
   votoBranco = false;
 
-  // Cria um elemento div para ser utilizado no documento html
   let numberSquare = document.createElement("div");
 
-  // Adiciona a quantidade certa de quadradinhos para digitar os números na tela, acessando a propriedade 'numeros' do objeto referente a etapa
   for (let i = 0; i < etapa.numeros; i++) {
     if (i == 0) {
       numberSquare = document.createElement("div");
@@ -52,7 +45,6 @@ function comecarEtapa() {
     }
   }
 
-  // Faz as informações inicias referentes a etapa sumirem, pois ainda não se sabe qual candidato escolheu
   seuVotoPara.style.visibility = "hidden";
   cargo.innerHTML = etapa.titulo;
   infosCandidato.style.display = "none";
@@ -64,13 +56,11 @@ function comecarEtapa() {
 }
 
 function atualizaInterface(eAtual) {
-  let etapa = etapas[eAtual];
+  const etapa = etapas[eAtual];
 
-  // Acessando o objeto referente a etapa, acessa a propriedade 'candidatos' e, dentro dela, que é um array de objetos também, procura onde estão as propriedade 'numero' e, ao achar, compara com o valor da variável número e, caso ache, retorna um array com o objeto referente encontrado.
-  let candidato = etapa.candidatos.filter((item) => item.numero === numero);
+  const candidato = etapa.candidatos.filter((item) => item.numero === numero);
 
-  // Caso algum valor seja retornado, ou seja, caso o vetor retornado seja maior que 0, executa essa condicional e atualiza a interface
-  if (candidato.length > 0) {
+  if (candidato.length) {
     seuVotoPara.style.visibility = "visible";
     infosCandidato.style.display = "block";
     imagens.style.visibility = "visible";
@@ -92,8 +82,6 @@ function atualizaInterface(eAtual) {
         imagemVice.src = candidato[0].fotos[1].url;
         cargoVice.innerHTML = candidato[0].fotos[1].legenda;
     }
-
-    // Caso não retorne nada, executa essa parte, mostrando que é um voto nulo
   } else {
     seuVotoPara.style.visibility = "visible";
     infosCandidato.style.display = "block";
@@ -103,22 +91,19 @@ function atualizaInterface(eAtual) {
   }
 }
 
-// Adiciona dinâmicamente a cada elemento que contém a classe .number um evento de clique e, ao clicar num desses elementos, executa a função clicou()
 qsa(".number").forEach((element) => {
   element.addEventListener("click", () => {
     clicou(element.getAttribute("data-numero"));
   });
 });
 
-// Ajuda a manter sempre o foco no input, caso o usuário clique em alguma parte na tela, para ele poder digitar o número
 window.addEventListener("click", () => {
   qs("input").focus();
 });
 
-// Adiciona evento de teclado, para poder escolher os números a partir das teclas numéricas do teclado e, também, corrigir (apertando o backspace), confirmar (apertando o enter) e votar em branco (apertando a tecla b)
 qs("input").addEventListener("keyup", (event) => {
-  let digitado = event.key;
-  let etapa = etapas[etapaAtual];
+  const digitado = event.key;
+  const etapa = etapas[etapaAtual];
   if (
     digitado >= 0 &&
     etapas[etapaAtual] !== undefined &&
@@ -129,22 +114,16 @@ qs("input").addEventListener("keyup", (event) => {
 });
 
 function clicou(n) {
-  // Executa som das teclas
   somTeclas();
 
-  // Seleciona o elemento que contém a classe pisca
-  let square = qs(".numero.pisca");
+  const square = qs(".numero.pisca");
 
-  // Adiciona o número clicado no quadrado piscando
   square.innerHTML = n;
 
-  // Concatena os números digitados e armazena na variável número para conferir posteriormente qual candidato escolhido
   numero = `${numero}${n}`;
 
-  // Remove a classe pisca do quadrado após o número ser escolhido
   square.classList.remove("pisca");
 
-  // Verifica se ainda existe algum quadrado (elemento) após o que foi digitado previamente. Caso tenha, adiciona a classe pisca a esse quadrado. Caso não tenha mais nenhum, chama a função que atualiza a interface
   if (square.nextElementSibling !== null) {
     square.nextElementSibling.classList.add("pisca");
   } else {
@@ -175,7 +154,7 @@ qs(".corrige").addEventListener("click", () => {
 qs(".confirma").addEventListener("click", () => {
   somTeclas();
 
-  let etapa = etapas[etapaAtual];
+  const etapa = etapas[etapaAtual];
   let votoConfirmado = false;
 
   if (votoBranco) {
@@ -184,15 +163,12 @@ qs(".confirma").addEventListener("click", () => {
       etapa: etapa.titulo,
       voto: "branco",
     });
-    // Verifica se a variável numero está completamente preenchida com uma string com o mesmo tamanho do valor numérico da propriedade numeros do objeto referente a etapa atual. Se sim, ou o voto é nulo ou é um voto referente a algum candidato.
   } else if (numero.length === etapa.numeros) {
     votoConfirmado = true;
 
-    let candidato = etapa.candidatos.filter((item) => item.numero === numero);
+    const candidato = etapa.candidatos.filter((item) => item.numero === numero);
 
-    console.log(candidato);
-
-    if (candidato[0].numero === numero) {
+    if (candidato.length) {
       votos.push({
         etapa: etapa.titulo,
         voto: candidato[0].nome,
@@ -222,7 +198,7 @@ qs(".confirma").addEventListener("click", () => {
   }
 });
 
-let audio = new Audio();
+const audio = new Audio();
 
 function somTeclas() {
   audio.src = "audios/numeros.mp3";
