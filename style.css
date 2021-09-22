@@ -239,9 +239,3 @@ input[type="text"] {
   animation-duration: 3s;
   animation-iteration-count: 1;
 }
-
-@media (max-width: 890px) {
-  .urna {
-    transform: rotate(90deg);
-  }
-}
