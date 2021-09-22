@@ -97,10 +97,6 @@ qsa(".number").forEach((element) => {
   });
 });
 
-window.addEventListener("click", () => {
-  qs("input").focus();
-});
-
 window.addEventListener("keyup", (event) => {
   const digitado = event.key;
   const etapa = etapas[etapaAtual];
